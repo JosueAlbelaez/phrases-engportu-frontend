@@ -1,50 +1,108 @@
-# React + TypeScript + Vite
+Frontend - MERN Stack Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este repositorio contiene el código fuente del frontend de una aplicación web desarrollada con el stack MERN (MongoDB, Express, React JS, Node.js). Si estás interesado en explorar más proyectos o colaborar, me encuentro abierto a ofertas laborales como desarrollador React JS y MERN.
 
-Currently, two official plugins are available:
+Descripción General
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+El frontend de la aplicación está construido utilizando React JS con Vite como herramienta de construcción. La interfaz permite a los usuarios interactuar con una base de datos de frases en inglés y frases en portugués traducidas en ambos casos al español y almacenadas en MongoDB. Las principales funcionalidades incluyen:
 
-## Expanding the ESLint configuration
+Selección de idioma y categorías de frases mediante un menú desplegable.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Muestra de una frase aleatoria dentro de una categoría o sin seleccionar ninguna categoría.
 
-- Configure the top-level `parserOptions` property like this:
+Reproducción de la frase en inglés con una API de texto a voz.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Navegación entre frases dentro de una categoría, en orden alfabético.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Funcionalidades adicionales como copiar la frase, compartirla y mostrar una nueva frase aleatoria.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Tecnologías Utilizadas
+
+React JS: Para la construcción de la interfaz de usuario.
+
+TypeScript: Mejora de la tipificación estática en todo el proyecto.
+
+Vite: Utilizado para configurar el entorno de desarrollo del frontend.
+
+Tailwind CSS: Para el diseño y estilización de los componentes.
+
+Axios: Para manejar las solicitudes HTTP hacia el backend.
+
+Text-to-Speech API: Para reproducir las frases en inglés de manera audible.
+
+
+Estructura del Proyecto
+
+El proyecto sigue una estructura estándar de React con TypeScript y está organizado de la siguiente manera:
+
+src/: Contiene todos los archivos de código fuente.
+
+components/: Componentes reutilizables de la aplicación.
+
+services/: Servicios para realizar llamadas a la API del backend.
+
+styles/: Configuración de Tailwind CSS.
+
+App.tsx: Componente principal que estructura la aplicación.
+
+
+
+Características Clave
+
+1. Selección de Categoría: El usuario puede elegir entre varias categorías de frases.
+
+
+2. Navegación Entre Frases: Posibilidad de avanzar y retroceder entre frases ordenadas alfabéticamente.
+
+
+3. Reproducción en Voz Alta: Conexión a una API para reproducir la frase seleccionada.
+
+
+4. Acciones Adicionales: El usuario puede copiar la frase, compartirla o generar una nueva frase aleatoria.
+
+
+
+Instalación
+
+Para ejecutar el frontend en tu máquina local, sigue los siguientes pasos:
+
+1. Clona el repositorio:
+
+
+
+git clone https://github.com/tuusuario/tu-repo.git
+
+2. Navega al directorio del frontend:
+
+
+
+cd frontend
+
+3. Instala las dependencias:
+
+
+
+npm install
+
+4. Inicia la aplicación en modo de desarrollo:
+
+
+
+npm run dev
+
+La aplicación estará disponible en http://localhost:3000.
+
+Contribución
+
+Si deseas contribuir a este proyecto, siéntete libre de hacer un fork del repositorio y enviar tus pull requests. Las colaboraciones y sugerencias son bienvenidas.
+
+Contacto
+
+Si tienes alguna duda o te gustaría colaborar en futuros proyectos, no dudes en contactarme a través de GitHub.
+
+
+---
+
+Este proyecto forma parte de una solución completa utilizando el stack MERN, conectando con un backend desarrollado en Node.js y Express. La base de datos está alojada en MongoDB y permite almacenar y gestionar las frases en inglés y su traducción al español.
+
