@@ -1,4 +1,4 @@
-Frontend - FRASES ENGPOTU - MERN Stack Application
+Frontend - FluentPhrases - MERN Stack Application
 
 Este repositorio contiene el código fuente del frontend de una aplicación web desarrollada con el stack MERN (MongoDB, Express, React JS, Node.js). Si estás interesado en explorar más proyectos o colaborar, me encuentro abierto a ofertas laborales como desarrollador React JS y MERN.
 
