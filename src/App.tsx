@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getRandomPhrase, getPhrasesByCategory, Phrase } from './services/api';
 import { PlayCircle } from 'lucide-react';
+import logo from './assets/logo.png';
 
+// Lista de idiomas y categorías
 const languages = ['English', 'Portuguese'];
 const DEFAULT_LANGUAGE = 'English';
 
@@ -15,7 +17,7 @@ const categories = {
   ],
   Portuguese: [
     'Cumprimentos e Apresentações', 'Diretrizes Básicas', 'Procedimentos em Escritórios',
-     'Família e Casa', 'Saúde e Bem-Estar', 'Compras e Negócios',
+    'Família e Casa', 'Saúde e Bem-Estar', 'Compras e Negócios',
     'Viagem e Turismo', 'Família e Relacionamentos Pessoais', 'Trabalho e Profissões',
     'Educação e Aprendizagem', 'Comida e Restaurantes', 'Emergências e Segurança',
     'Entretenimento e Lazer', 'Tecnologia e Comunicação', 'Cultura e Sociedade',
@@ -37,26 +39,24 @@ export default function App() {
 
   const loadInitialPhrases = async (category: string = '') => {
     try {
-        setIsLoading(true);
-        const randomPhrases = await getRandomPhrase(selectedLanguage, category, 10); // Obtener 10 frases aleatorias
-        setPhrases(randomPhrases);
-        setCurrentPhrase(randomPhrases[0]);
-        setCurrentIndex(0); // Resetea el índice a 0 al cargar nuevas frases
+      setIsLoading(true);
+      const randomPhrases = await getRandomPhrase(selectedLanguage, category, 10);
+      setPhrases(randomPhrases);
+      setCurrentPhrase(randomPhrases[0]);
+      setCurrentIndex(0);
     } catch (error) {
-        console.error('Error loading initial phrases:', error);
+      console.error('Error loading initial phrases:', error);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
-};
-
-
+  };
 
   const handleLanguageChange = async (language: string) => {
     setSelectedLanguage(language);
     setSelectedCategory('');
     try {
       setIsLoading(true);
-      const randomPhrases = await getRandomPhrase(language, '', 10); // Obtener 10 frases aleatorias del nuevo idioma
+      const randomPhrases = await getRandomPhrase(language, '', 10);
       setPhrases(randomPhrases);
       setCurrentPhrase(randomPhrases[0]);
       setCurrentIndex(0);
@@ -111,8 +111,19 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-500 to-green-800 p-8">
-      <div className="max-w-md mx-auto bg-green-200 rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+    <div
+      className={`min-h-screen p-8 ${
+        selectedLanguage === 'Portuguese'
+          ? 'bg-gradient-to-b from-green-800 via-yellow-500 to-green-800'
+          : 'bg-gradient-to-b from-blue-800 via-white to-red-700'
+      }`}
+    >
+      {/* Header con el logo */}
+      <header className="flex justify-center py-1 mb-3">
+      <img src={logo} alt="Logo" className="w-20 h-20"/>
+      </header>
+
+      <div className="max-w-md mx-auto bg-white/70 rounded-xl shadow-md overflow-hidden md:max-w-2xl">
         <div className="p-8">
           <div className="mb-4">
             <select
@@ -121,13 +132,13 @@ export default function App() {
               onChange={(e) => handleLanguageChange(e.target.value)}
               disabled={isLoading}
             >
-              {languages.map(language => (
+              {languages.map((language) => (
                 <option key={language} value={language}>
                   {language}
                 </option>
               ))}
             </select>
-            
+
             <select
               className="w-full p-2 border rounded"
               value={selectedCategory}
@@ -135,58 +146,58 @@ export default function App() {
               disabled={isLoading}
             >
               <option value="">All Categories</option>
-              {categories[selectedLanguage as keyof typeof categories].map(category => (
+              {categories[selectedLanguage as keyof typeof categories].map((category) => (
                 <option key={category} value={category}>
                   {category}
                 </option>
               ))}
             </select>
           </div>
-          
+
           {isLoading ? (
             <div className="text-center">Loading...</div>
-          ) : currentPhrase && (
-            <div className="text-center">
-              <div className="flex justify-between items-center mb-4">
-                <button
-                  onClick={handlePrevious}
-                  className="px-4 py-2 bg-green-900 text-white rounded"
-                  disabled={phrases.length <= 1}
-                >
-                  Previous
-                </button>
-                <button
-                  onClick={handleNext}
-                  className="px-4 py-2 bg-green-900 text-white rounded"
-                  disabled={phrases.length <= 1}
-                >
-                  Next
-                </button>
-              </div>
-              
-              <div className="mb-4">
-                <h2 className="text-2xl font-bold mb-2">{currentPhrase.targetText}</h2>
-                <p className="text-gray-600">{currentPhrase.translatedText}</p>
-              </div>
-              
-              <div className="flex justify-center space-x-4">
-                <button
-                  onClick={speakPhrase}
-                  className="flex items-center px-4 py-2 bg-secondary text-white rounded"
-                >
-                  <PlayCircle className="mr-2" />
-                  Speak
-                </button>
-  <button
-    onClick={() => loadInitialPhrases(selectedCategory)} // Llamar con la categoría seleccionada
-    className="px-4 py-2 bg-secondary text-white rounded"
->
-    Random
-</button>
+          ) : (
+            currentPhrase && (
+              <div className="text-center">
+                <div className="flex justify-between items-center mb-4">
+                  <button
+                    onClick={handlePrevious}
+                    className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
+                    disabled={phrases.length <= 1}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    onClick={handleNext}
+                    className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
+                    disabled={phrases.length <= 1}
+                  >
+                    Next
+                  </button>
+                </div>
 
+                <div className="mb-4">
+                  <h2 className="text-2xl font-bold mb-2">{currentPhrase.targetText}</h2>
+                  <p className="text-gray-600">{currentPhrase.translatedText}</p>
+                </div>
 
+                <div className="flex justify-center space-x-4">
+                  <button
+                    onClick={speakPhrase}
+                    className="flex items-center px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
+                  >
+                    <PlayCircle className="mr-2" />
+                    Speak
+                  </button>
+                  <button
+                    onClick={() => loadInitialPhrases(selectedCategory)}
+                    className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
+                  >
+                    Random
+                  </button>
+                </div>
               </div>
-            </div>
+            )
           )}
         </div>
       </div>
