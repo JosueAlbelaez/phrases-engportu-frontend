@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getRandomPhrase, getPhrasesByCategory, Phrase } from './services/api';
 import { PlayCircle } from 'lucide-react';
+import { FaLinkedin, FaGithub } from 'react-icons/fa'; // Importar íconos de react-icons
 import logo from './assets/logo.png';
 
 // Lista de idiomas y categorías
@@ -201,6 +202,40 @@ export default function App() {
           )}
         </div>
       </div>
+      <footer className="mt-6 text-center text-green-300">
+  <div className="flex flex-col md:flex-row justify-center items-center space-x-0 md:space-x-4">
+    <p>
+      Creado por{' '}
+      <a
+        href="https://josuealbelaez.netlify.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline hover:text-white"
+      >
+        JOSUÉ ALBELÁEZ
+      </a>
+    </p>
+    <div className="flex justify-center space-x-4 mt-4 md:mt-0">
+      <a
+        href="https://www.linkedin.com/in/juanjosuealbelaez/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-green-300 hover:text-white transition duration-300 hover:shadow-lg"
+      >
+        <FaLinkedin size={24} />
+      </a>
+      <a
+        href="https://github.com/JosueAlbelaez"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-green-300 hover:text-white transition duration-300 hover:shadow-lg"
+      >
+        <FaGithub size={24} />
+      </a>
+    </div>
+  </div>
+</footer>
+
     </div>
   );
 }
