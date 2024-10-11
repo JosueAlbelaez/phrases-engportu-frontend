@@ -156,7 +156,7 @@ export default function App() {
           </div>
 
           {isLoading ? (
-            <div className="text-center">Loading...</div>
+            <div className="text-center">Cargando...</div>
           ) : (
             currentPhrase && (
               <div className="text-center">
@@ -203,14 +203,14 @@ export default function App() {
         </div>
       </div>
       <footer className="mt-6 text-center text-green-300">
-  <div className="flex flex-col md:flex-row justify-center items-center space-x-0 md:space-x-4">
-    <p>
+  <div className="inline-flex px-8 flex-col  md:flex-row bg-black/50 rounded py-2 justify-center items-center space-x-0 md:space-x-4">
+    <p >
       Creado por{' '}
       <a
         href="https://josuealbelaez.netlify.app/"
         target="_blank"
         rel="noopener noreferrer"
-        className="underline hover:text-white"
+        className="text-green-300 hover:text-white shadow hover:shadow-green-300/60 transition duration-300"
       >
         JOSUÉ ALBELÁEZ
       </a>
@@ -220,7 +220,7 @@ export default function App() {
         href="https://www.linkedin.com/in/juanjosuealbelaez/"
         target="_blank"
         rel="noopener noreferrer"
-        className="text-green-300 hover:text-white transition duration-300 hover:shadow-lg"
+        className="text-green-300 hover:text-white shadow hover:shadow-green-300/60 transition duration-300"
       >
         <FaLinkedin size={24} />
       </a>
@@ -228,7 +228,7 @@ export default function App() {
         href="https://github.com/JosueAlbelaez"
         target="_blank"
         rel="noopener noreferrer"
-        className="text-green-300 hover:text-white transition duration-300 hover:shadow-lg"
+       className="text-green-300 hover:text-white shadow hover:shadow-green-300/60 transition duration-300"
       >
         <FaGithub size={24} />
       </a>
