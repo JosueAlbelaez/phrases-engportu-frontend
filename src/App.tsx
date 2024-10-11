@@ -203,7 +203,7 @@ export default function App() {
         </div>
       </div>
       <footer className="mt-6 text-center text-green-300">
-  <div className="inline-flex px-8 flex-col  md:flex-row bg-black/50 rounded py-2 justify-center items-center space-x-0 md:space-x-4">
+  <div className="inline-flex px-4 flex-col  md:flex-row bg-black/50 rounded py-2 justify-center items-center space-x-0 md:space-x-4">
     <p >
       Creado por{' '}
       <a
