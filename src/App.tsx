@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getRandomPhrase, getPhrasesByCategory, Phrase } from './services/api';
 import { PlayCircle } from 'lucide-react';
-import { FaLinkedin, FaGithub } from 'react-icons/fa'; // Importar íconos de react-icons
+import { FaLinkedin, FaGithub } from 'react-icons/fa';
 import logo from './assets/logo.png';
 
-// Lista de idiomas y categorías
 const languages = ['English', 'Portuguese'];
 const DEFAULT_LANGUAGE = 'English';
 
@@ -103,10 +102,11 @@ export default function App() {
     }
   };
 
-  const speakPhrase = () => {
+  const speakPhrase = (rate: number = 1) => {
     if (currentPhrase && 'speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(currentPhrase.targetText);
       utterance.lang = selectedLanguage === 'English' ? 'en-US' : 'pt-BR';
+      utterance.rate = rate;
       window.speechSynthesis.speak(utterance);
     }
   };
@@ -119,9 +119,8 @@ export default function App() {
           : 'bg-gradient-to-b from-blue-800 via-white to-red-700'
       }`}
     >
-      {/* Header con el logo */}
       <header className="flex justify-center py-1 mb-3">
-      <img src={logo} alt="Logo" className="w-20 h-20"/>
+        <img src={logo} alt="Logo" className="w-20 h-20"/>
       </header>
 
       <div className="max-w-md mx-auto bg-white/70 rounded-xl shadow-md overflow-hidden md:max-w-2xl">
@@ -184,11 +183,18 @@ export default function App() {
 
                 <div className="flex justify-center space-x-4">
                   <button
-                    onClick={speakPhrase}
+                    onClick={() => speakPhrase(1)}
                     className="flex items-center px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
                   >
                     <PlayCircle className="mr-2" />
                     Speak
+                  </button>
+                  <button
+                    onClick={() => speakPhrase(0.5)}
+                    className="flex items-center px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
+                  >
+                    <PlayCircle className="mr-2" />
+                    Slow
                   </button>
                   <button
                     onClick={() => loadInitialPhrases(selectedCategory)}
@@ -202,40 +208,40 @@ export default function App() {
           )}
         </div>
       </div>
-      <footer className="mt-6 text-center text-green-300">
-  <div className="inline-flex px-4 flex-col  md:flex-row bg-black/50 rounded py-2 justify-center items-center space-x-0 md:space-x-4">
-    <p >
-      Creado por{' '}
-      <a
-        href="https://josuealbelaez.netlify.app/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-green-300 hover:text-white shadow hover:shadow-green-300/60 transition duration-300"
-      >
-        JOSUÉ ALBELÁEZ
-      </a>
-    </p>
-    <div className="flex justify-center space-x-4 mt-4 md:mt-0">
-      <a
-        href="https://www.linkedin.com/in/juanjosuealbelaez/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-green-300 hover:text-white shadow hover:shadow-green-300/60 transition duration-300"
-      >
-        <FaLinkedin size={24} />
-      </a>
-      <a
-        href="https://github.com/JosueAlbelaez"
-        target="_blank"
-        rel="noopener noreferrer"
-       className="text-green-300 hover:text-white shadow hover:shadow-green-300/60 transition duration-300"
-      >
-        <FaGithub size={24} />
-      </a>
-    </div>
-  </div>
-</footer>
 
+      <footer className="mt-6 text-center text-green-300">
+        <div className="inline-flex px-4 flex-col md:flex-row bg-black/50 rounded py-2 justify-center items-center space-x-0 md:space-x-4">
+          <p>
+            Creado por{' '}
+            <a
+              href="https://josuealbelaez.netlify.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-300 hover:text-white shadow hover:shadow-green-300/60 transition duration-300"
+            >
+              JOSUÉ ALBELÁEZ
+            </a>
+          </p>
+          <div className="flex justify-center space-x-4 mt-4 md:mt-0">
+            <a
+              href="https://www.linkedin.com/in/juanjosuealbelaez/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-300 hover:text-white shadow hover:shadow-green-300/60 transition duration-300"
+            >
+              <FaLinkedin size={24} />
+            </a>
+            <a
+              href="https://github.com/JosueAlbelaez"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-300 hover:text-white shadow hover:shadow-green-300/60 transition duration-300"
+            >
+              <FaGithub size={24} />
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
