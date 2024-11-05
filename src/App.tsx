@@ -181,28 +181,28 @@ export default function App() {
                   <p className="text-gray-600">{currentPhrase.translatedText}</p>
                 </div>
 
-                <div className="flex justify-center space-x-4">
-                  <button
-                    onClick={() => speakPhrase(1)}
-                    className="flex items-center px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
-                  >
-                    <PlayCircle className="mr-2" />
-                    Speak
-                  </button>
-                  <button
-                    onClick={() => speakPhrase(0.5)}
-                    className="flex items-center px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
-                  >
-                    <PlayCircle className="mr-2" />
-                    Slow
-                  </button>
-                  <button
-                    onClick={() => loadInitialPhrases(selectedCategory)}
-                    className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
-                  >
-                    Random
-                  </button>
-                </div>
+                <div className="flex justify-center space-x-2 md:space-x-4">
+  <button
+    onClick={() => speakPhrase(1)}
+    className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
+  >
+    <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
+    Speak
+  </button>
+  <button
+    onClick={() => speakPhrase(0.5)}
+    className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
+  >
+    <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
+    Slow
+  </button>
+  <button
+    onClick={() => loadInitialPhrases(selectedCategory)}
+    className="px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
+  >
+    Random
+  </button>
+</div>
               </div>
             )
           )}
