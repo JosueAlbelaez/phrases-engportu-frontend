@@ -115,8 +115,8 @@ export default function App() {
     <div
       className={`min-h-screen p-8 ${
         selectedLanguage === 'Portuguese'
-          ? 'bg-gradient-to-b from-green-800 via-yellow-500 to-green-800'
-          : 'bg-gradient-to-b from-blue-800 via-white to-red-700'
+          ? 'bg-gradient-to-b from-green-400  to-green-800'
+          : 'bg-gradient-to-b from-blue-400 to-blue-800'
       }`}
     >
       <header className="flex justify-center py-1 mb-3">
