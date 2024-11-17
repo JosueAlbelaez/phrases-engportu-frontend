@@ -10,11 +10,9 @@ const DEFAULT_LANGUAGE = 'English';
 const categories = {
   English: [
     'Greeting and Introducing', 'Health and Wellness', 'Shopping and Business',
-    'Travel and Tourism', 'Family and Personal Relationships', 'Work and Professions',
-    'Education and Learning', 'Food and Restaurants', 'Emergencies and Safety',
-    'Entertainment and Leisure', 'Technology and Communication', 'Culture and Society',
-    'Opinions and Debates'
-  ],
+    'Travel and Tourism', 'Family and Personal Relationships', 'Work and Professions','Education and Learning', 'Food and Restaurants', 'Emergencies and Safety','Entertainment and Leisure', 'Technology and Communication', 'Culture and Society', 'Sports and Outdoor Activities', 'Advanced Idioms and Expressions', 'Opinions and Debates','Environment and Sustainability', 'Professional Networking and Business Jargon','Psychology and Emotions', 'Literature and Arts', 'Cultural Traditions and Festivals', 'Science and Innovation', 'Politics and Current Events', 'History and Historical Events', 'Law and Legal Terminology', 'Advanced Debate and Rhetoric', 'Travel for Study or Work Abroad', 'Financial and Investment Terminology', 'Philosophy and Ethics', 'Development and Software Engineering'
+  ]
+  ,
   Portuguese: [
     'Cumprimentos e Apresentações', 'Diretrizes Básicas', 'Procedimentos em Escritórios',
     'Família e Casa', 'Saúde e Bem-Estar', 'Compras e Negócios',
@@ -190,7 +188,7 @@ export default function App() {
     Speak
   </button>
   <button
-    onClick={() => speakPhrase(0.5)}
+    onClick={() => speakPhrase(0.4)}
     className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
   >
     <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
