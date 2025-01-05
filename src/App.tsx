@@ -1,18 +1,33 @@
 import { useState, useEffect } from 'react';
 import { getRandomPhrase, getPhrasesByCategory, Phrase } from './services/api';
-import { PlayCircle } from 'lucide-react';
+import { PlayCircle,Clock } from 'lucide-react';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 import logo from './assets/logo.png';
 
 const languages = ['English', 'Portuguese'];
 const DEFAULT_LANGUAGE = 'English';
+const ITEMS_PER_PAGE = 50;
+
+const TABLE_VIEW_CATEGORIES = [
+  '1000 Nouns',
+  'Adjectives and Adverbs',
+  'Prepositions and Conjunctions',
+  'Articles, Determiners and Interjections'
+];
 
 const categories = {
   English: [
-    'Greeting and Introducing', '1000 Nouns', 'Adjectives and Adverbs', 'Prepositions and Conjunctions', 'Articles, Determiners and Interjections', 'Health and Wellness', 'Shopping and Business',
-    'Travel and Tourism', 'Family and Personal Relationships', 'Work and Professions','Education and Learning', 'Food and Restaurants', 'Emergencies and Safety','Entertainment and Leisure', 'Technology and Communication', 'Culture and Society', 'Sports and Outdoor Activities', 'Advanced Idioms and Expressions', 'Opinions and Debates','Environment and Sustainability', 'Professional Networking and Business Jargon','Psychology and Emotions', 'Literature and Arts', 'Cultural Traditions and Festivals', 'Science and Innovation', 'Politics and Current Events', 'History and Historical Events', 'Law and Legal Terminology', 'Advanced Debate and Rhetoric', 'Travel for Study or Work Abroad', 'Financial and Investment Terminology', 'Philosophy and Ethics', 'Development and Software Engineering'
-  ]
-  ,
+    'Greeting and Introducing', '1000 Nouns', 'Adjectives and Adverbs', 'Prepositions and Conjunctions', 'Articles, Determiners and Interjections', 
+  'Health and Wellness', 'Shopping and Business', 'Travel and Tourism', 'Family and Personal Relationships', 'Work and Professions',
+    'Education and Learning', 'Food and Restaurants', 'Emergencies and Safety',
+    'Entertainment and Leisure', 'Technology and Communication', 'Culture and Society',
+    'Sports and Outdoor Activities', 'Advanced Idioms and Expressions', 'Opinions and Debates',
+    'Environment and Sustainability', 'Professional Networking and Business Jargon',
+    'Psychology and Emotions', 'Literature and Arts', 'Cultural Traditions and Festivals',
+    'Science and Innovation', 'Politics and Current Events', 'History and Historical Events',
+    'Law and Legal Terminology', 'Advanced Debate and Rhetoric', 'Travel for Study or Work Abroad',
+    'Financial and Investment Terminology', 'Philosophy and Ethics', 'Development and Software Engineering'
+  ],
   Portuguese: [
     'Cumprimentos e Apresentações', 'Diretrizes Básicas', 'Procedimentos em Escritórios',
     'Família e Casa', 'Saúde e Bem-Estar', 'Compras e Negócios',
@@ -30,6 +45,7 @@ export default function App() {
   const [phrases, setPhrases] = useState<Phrase[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     loadInitialPhrases();
@@ -42,6 +58,7 @@ export default function App() {
       setPhrases(randomPhrases);
       setCurrentPhrase(randomPhrases[0]);
       setCurrentIndex(0);
+      setCurrentPage(0);
     } catch (error) {
       console.error('Error loading initial phrases:', error);
     } finally {
@@ -58,6 +75,7 @@ export default function App() {
       setPhrases(randomPhrases);
       setCurrentPhrase(randomPhrases[0]);
       setCurrentIndex(0);
+      setCurrentPage(0);
     } catch (error) {
       console.error('Error loading phrases for new language:', error);
     } finally {
@@ -74,6 +92,7 @@ export default function App() {
         setPhrases(categoryPhrases);
         setCurrentPhrase(categoryPhrases[0]);
         setCurrentIndex(0);
+        setCurrentPage(0);
       } else {
         await loadInitialPhrases();
       }
@@ -100,20 +119,180 @@ export default function App() {
     }
   };
 
-  const speakPhrase = (rate: number = 1) => {
-    if (currentPhrase && 'speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(currentPhrase.targetText);
+  const handleNextPage = () => {
+    if ((currentPage + 1) * ITEMS_PER_PAGE < phrases.length) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const speakPhrase = (phrase: Phrase, rate: number = 1) => {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(phrase.targetText);
       utterance.lang = selectedLanguage === 'English' ? 'en-US' : 'pt-BR';
       utterance.rate = rate;
       window.speechSynthesis.speak(utterance);
     }
   };
 
+  const renderTableView = () => {
+    const startIndex = currentPage * ITEMS_PER_PAGE;
+    const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, phrases.length);
+    const currentPhrases = phrases.slice(startIndex, endIndex);
+
+    return (
+      <div className="w-full">
+        <div className="flex justify-between mb-4">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 0}
+            className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Previous
+          </button>
+          <span className="text-gray-600">
+            Page {currentPage + 1} of {Math.ceil(phrases.length / ITEMS_PER_PAGE)}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={(currentPage + 1) * ITEMS_PER_PAGE >= phrases.length}
+            className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Next
+          </button>
+        </div>
+
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <table className="min-w-full">
+            <tbody>
+              {currentPhrases.map((phrase, index) => (
+                <tr key={index} className="border-b-2">
+                  <td className="p-4">
+                    <div className="flex-col justify-center items-center">
+                      <div className="flex-1">
+                        <p className="text-lg font-bold text-green-800 mb-1">
+                          {phrase.targetText}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {phrase.translatedText}
+                        </p>
+                      </div>
+                      <div className="flex justify-center space-x-2 pt-2">
+                        <button
+                          onClick={() => speakPhrase(phrase, 1)}
+                          className="p-2 bg-green-800 text-white rounded hover:bg-green-600"
+                        >
+                          <PlayCircle className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => speakPhrase(phrase, 0.4)}
+                          className="p-2 bg-green-800 text-white rounded hover:bg-green-600"
+                        >
+                          <Clock className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex justify-between mb-4 mt-4">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 0}
+            className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Previous
+          </button>
+          <span className="text-gray-600">
+            Page {currentPage + 1} of {Math.ceil(phrases.length / ITEMS_PER_PAGE)}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={(currentPage + 1) * ITEMS_PER_PAGE >= phrases.length}
+            className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Next
+          </button>
+        </div>
+
+      </div>
+    );
+  };
+
+  const renderDefaultView = () => (
+    <div className="text-center">
+      <div className="flex justify-between items-center mb-4">
+        <button
+          onClick={handlePrevious}
+          className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
+          disabled={phrases.length <= 1}
+        >
+          Previous
+        </button>
+        <button
+          onClick={handleNext}
+          className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
+          disabled={phrases.length <= 1}
+        >
+          Next
+        </button>
+      </div>
+
+      <div className="mb-4">
+        <h2 className="text-2xl font-bold mb-2">{currentPhrase?.targetText}</h2>
+        <p className="text-gray-600">{currentPhrase?.translatedText}</p>
+      </div>
+
+      <div className="flex justify-center space-x-2 md:space-x-4">
+        <button
+          onClick={() => currentPhrase && speakPhrase(currentPhrase, 1)}
+          className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
+        >
+          <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
+          Speak
+        </button>
+        <button
+          onClick={() => currentPhrase && speakPhrase(currentPhrase, 0.4)}
+          className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
+        >
+          <Clock className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
+          Slow
+        </button>
+        <button
+          onClick={() => loadInitialPhrases(selectedCategory)}
+          className="px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
+        >
+          Random
+        </button>
+      </div>
+
+      <div className="mt-6">
+        <div className="w-full bg-gray-200 rounded-full h-2.5">
+          <div
+            className="bg-green-800 h-2.5 rounded-full transition-all duration-300"
+            style={{ width: `${((currentIndex + 1) / phrases.length) * 100}%` }}
+          ></div>
+        </div>
+        <p className="text-sm text-gray-600 mt-1">
+          {currentIndex + 1} of {phrases.length} phrases
+        </p>
+      </div>
+    </div>
+  );
+
   return (
     <div
       className={`min-h-screen p-8 ${
         selectedLanguage === 'Portuguese'
-          ? 'bg-gradient-to-b from-green-400  to-green-800'
+          ? 'bg-gradient-to-b from-green-400 to-green-800'
           : 'bg-gradient-to-b from-blue-400 to-blue-800'
       }`}
     >
@@ -121,7 +300,7 @@ export default function App() {
         <img src={logo} alt="Logo" className="w-20 h-20"/>
       </header>
 
-      <div className="max-w-md mx-auto bg-white/70 rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+      <div className="max-w-4xl mx-auto bg-white/70 rounded-xl shadow-md overflow-hidden">
         <div className="p-8">
           <div className="mb-4">
             <select
@@ -156,65 +335,9 @@ export default function App() {
             <div className="text-center">Cargando...</div>
           ) : (
             currentPhrase && (
-              <div className="text-center">
-                <div className="flex justify-between items-center mb-4">
-                  <button
-                    onClick={handlePrevious}
-                    className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
-                    disabled={phrases.length <= 1}
-                  >
-                    Previous
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
-                    disabled={phrases.length <= 1}
-                  >
-                    Next
-                  </button>
-                </div>
-
-                <div className="mb-4">
-                  <h2 className="text-2xl font-bold mb-2">{currentPhrase.targetText}</h2>
-                  <p className="text-gray-600">{currentPhrase.translatedText}</p>
-                </div>
-
-                <div className="flex justify-center space-x-2 md:space-x-4">
-                  <button
-                    onClick={() => speakPhrase(1)}
-                    className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
-                  >
-                    <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
-                    Speak
-                  </button>
-                  <button
-                    onClick={() => speakPhrase(0.4)}
-                    className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
-                  >
-                    <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
-                    Slow
-                  </button>
-                  <button
-                    onClick={() => loadInitialPhrases(selectedCategory)}
-                    className="px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
-                  >
-                    Random
-                  </button>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="mt-6">
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div
-                      className="bg-green-800 h-2.5 rounded-full transition-all duration-300"
-                      style={{ width: `${((currentIndex + 1) / phrases.length) * 100}%` }}
-                    ></div>
-                  </div>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {currentIndex + 1} of {phrases.length} phrases
-                  </p>
-                </div>
-              </div>
+              TABLE_VIEW_CATEGORIES.includes(selectedCategory)
+                ? renderTableView()
+                : renderDefaultView()
             )
           )}
         </div>
