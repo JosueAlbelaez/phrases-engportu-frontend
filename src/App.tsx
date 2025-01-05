@@ -180,27 +180,40 @@ export default function App() {
                 </div>
 
                 <div className="flex justify-center space-x-2 md:space-x-4">
-  <button
-    onClick={() => speakPhrase(1)}
-    className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
-  >
-    <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
-    Speak
-  </button>
-  <button
-    onClick={() => speakPhrase(0.4)}
-    className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
-  >
-    <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
-    Slow
-  </button>
-  <button
-    onClick={() => loadInitialPhrases(selectedCategory)}
-    className="px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
-  >
-    Random
-  </button>
-</div>
+                  <button
+                    onClick={() => speakPhrase(1)}
+                    className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
+                  >
+                    <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
+                    Speak
+                  </button>
+                  <button
+                    onClick={() => speakPhrase(0.4)}
+                    className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
+                  >
+                    <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
+                    Slow
+                  </button>
+                  <button
+                    onClick={() => loadInitialPhrases(selectedCategory)}
+                    className="px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
+                  >
+                    Random
+                  </button>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="mt-6">
+                  <div className="w-full bg-gray-200 rounded-full h-2.5">
+                    <div
+                      className="bg-green-800 h-2.5 rounded-full transition-all duration-300"
+                      style={{ width: `${((currentIndex + 1) / phrases.length) * 100}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {currentIndex + 1} of {phrases.length} phrases
+                  </p>
+                </div>
               </div>
             )
           )}
