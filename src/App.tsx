@@ -153,8 +153,8 @@ export default function App() {
           <button
             onClick={handlePreviousPage}
             disabled={currentPage === 0}
-            className={`flex items-center px-1 py-0.5 md:px-4 md:py-2 text-xs md:text-base ${
-              isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+            className={`flex items-center px-3 py-2 md:px-4 md:py-2 text-xs md:text-base ${
+              isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
             } text-white rounded disabled:opacity-50`}
           >
             Previous
@@ -165,9 +165,9 @@ export default function App() {
           <button
             onClick={handleNextPage}
             disabled={(currentPage + 1) * ITEMS_PER_PAGE >= phrases.length}
-            className={`flex items-center px-1 py-0.5 md:px-4 md:py-2 text-xs md:text-base ${
-              isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
-            } text-white rounded disabled:opacity-50`}
+            className={`flex items-center px-3 py-2 md:px-4 md:py-2 text-xs md:text-base ${
+              isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
+            } text-white rounded disabled:opacity-95`}
           >
             Next
           </button>
@@ -182,7 +182,7 @@ export default function App() {
                     <div className="flex-col justify-center items-center">
                       <div className="flex-1">
                         <p className={`text-base sm:text-lg font-bold ${
-                          isDarkMode ? 'text-blue-400' : 'text-green-800'
+                          isDarkMode ? 'text-green-400' : 'text-green-800'
                         } mb-1`}>
                           {phrase.targetText}
                         </p>
@@ -194,7 +194,7 @@ export default function App() {
                         <button
                           onClick={() => speakPhrase(phrase, 1)}
                           className={`p-2 ${
-                            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+                            isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
                           } text-white rounded`}
                         >
                           <PlayCircle className="w-4 h-4" />
@@ -202,7 +202,7 @@ export default function App() {
                         <button
                           onClick={() => speakPhrase(phrase, 0.4)}
                           className={`p-2 ${
-                            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+                            isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
                           } text-white rounded`}
                         >
                           <Clock className="w-4 h-4" />
@@ -215,6 +215,29 @@ export default function App() {
             </tbody>
           </table>
         </div>
+        <div className="flex justify-between mt-4 mb-4">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 0}
+            className={`flex items-center px-3 py-2 md:px-4 md:py-2 text-xs md:text-base ${
+              isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
+            } text-white rounded disabled:opacity-50`}
+          >
+            Previous
+          </button>
+          <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            p- {currentPage + 1} of {Math.ceil(phrases.length / ITEMS_PER_PAGE)}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={(currentPage + 1) * ITEMS_PER_PAGE >= phrases.length}
+            className={`flex items-center px-3 py-2 md:px-4 md:py-2 text-xs md:text-base ${
+              isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
+            } text-white rounded disabled:opacity-95`}
+          >
+            Next
+          </button>
+        </div>
       </div>
     );
   };
@@ -225,7 +248,7 @@ export default function App() {
         <button
           onClick={handlePrevious}
           className={`px-4 py-2 ${
-            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+            isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
           } text-white rounded disabled:opacity-50`}
           disabled={phrases.length <= 1}
         >
@@ -234,8 +257,8 @@ export default function App() {
         <button
           onClick={handleNext}
           className={`px-4 py-2 ${
-            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
-          } text-white rounded disabled:opacity-50`}
+            isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
+          } text-white rounded disabled:opacity-95`}
           disabled={phrases.length <= 1}
         >
           Next
@@ -255,7 +278,7 @@ export default function App() {
         <button
           onClick={() => currentPhrase && speakPhrase(currentPhrase, 1)}
           className={`flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base ${
-            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+            isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
           } text-white rounded`}
         >
           <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
@@ -264,7 +287,7 @@ export default function App() {
         <button
           onClick={() => currentPhrase && speakPhrase(currentPhrase, 0.4)}
           className={`flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base ${
-            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+            isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
           } text-white rounded`}
         >
           <Clock className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
@@ -273,7 +296,7 @@ export default function App() {
         <button
           onClick={() => loadInitialPhrases(selectedCategory)}
           className={`px-2 py-1 md:px-4 md:py-2 text-sm md:text-base ${
-            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+            isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
           } text-white rounded`}
         >
           Random
@@ -284,7 +307,7 @@ export default function App() {
         <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
           <div
             className={`h-2.5 rounded-full transition-all duration-300 ${
-              isDarkMode ? 'bg-blue-600' : 'bg-green-800'
+              isDarkMode ? 'bg-green-600' : 'bg-green-800'
             }`}
             style={{ width: `${((currentIndex + 1) / phrases.length) * 100}%` }}
           ></div>
