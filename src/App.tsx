@@ -39,6 +39,16 @@ const categories = {
   ]
 };
 
+const LoadingSpinner = () => (
+  <div className="flex flex-col items-center justify-center p-8">
+    <div className="relative">
+      <div className="w-12 h-12 border-4 border-green-200 rounded-full"></div>
+      <div className="w-12 h-12 border-4 border-green-500 rounded-full border-t-transparent animate-spin absolute top-0 left-0"></div>
+    </div>
+    <p className="mt-4 text-lg font-medium text-green-500">Loading phrases...</p>
+  </div>
+);
+
 export default function App() {
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [currentPhrase, setCurrentPhrase] = useState<Phrase | null>(null);
@@ -379,9 +389,7 @@ export default function App() {
           </div>
 
           {isLoading ? (
-            <div className={`text-center ${isDarkMode ? 'text-white' : ''}`}>
-              Cargando...
-            </div>
+            <LoadingSpinner />
           ) : (
             currentPhrase && (
               TABLE_VIEW_CATEGORIES.includes(selectedCategory)
