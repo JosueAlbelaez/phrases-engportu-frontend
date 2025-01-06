@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { getRandomPhrase, getPhrasesByCategory, Phrase } from './services/api';
-import { PlayCircle,Clock } from 'lucide-react';
+import { PlayCircle, Clock, Sun, Moon } from 'lucide-react';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
+import { useTheme } from './contexts/ThemeContext';
 import logo from './assets/logo.png';
 
 const languages = ['English', 'Portuguese'];
@@ -18,7 +19,7 @@ const TABLE_VIEW_CATEGORIES = [
 const categories = {
   English: [
     'Greeting and Introducing', '1000 Nouns', 'Adjectives and Adverbs', 'Prepositions and Conjunctions', 'Articles, Determiners and Interjections', 
-  'Health and Wellness', 'Shopping and Business', 'Travel and Tourism', 'Family and Personal Relationships', 'Work and Professions',
+    'Health and Wellness', 'Shopping and Business', 'Travel and Tourism', 'Family and Personal Relationships', 'Work and Professions',
     'Education and Learning', 'Food and Restaurants', 'Emergencies and Safety',
     'Entertainment and Leisure', 'Technology and Communication', 'Culture and Society',
     'Sports and Outdoor Activities', 'Advanced Idioms and Expressions', 'Opinions and Debates',
@@ -39,6 +40,7 @@ const categories = {
 };
 
 export default function App() {
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const [currentPhrase, setCurrentPhrase] = useState<Phrase | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState<string>(DEFAULT_LANGUAGE);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -151,47 +153,57 @@ export default function App() {
           <button
             onClick={handlePreviousPage}
             disabled={currentPage === 0}
-            className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`flex items-center px-1 py-0.5 md:px-4 md:py-2 text-xs md:text-base ${
+              isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+            } text-white rounded disabled:opacity-50`}
           >
             Previous
           </button>
-          <span className="text-gray-600">
-            Page {currentPage + 1} of {Math.ceil(phrases.length / ITEMS_PER_PAGE)}
+          <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            p- {currentPage + 1} of {Math.ceil(phrases.length / ITEMS_PER_PAGE)}
           </span>
           <button
             onClick={handleNextPage}
             disabled={(currentPage + 1) * ITEMS_PER_PAGE >= phrases.length}
-            className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`flex items-center px-1 py-0.5 md:px-4 md:py-2 text-xs md:text-base ${
+              isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+            } text-white rounded disabled:opacity-50`}
           >
             Next
           </button>
         </div>
 
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className={`${isDarkMode ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow overflow-hidden`}>
           <table className="min-w-full">
             <tbody>
               {currentPhrases.map((phrase, index) => (
-                <tr key={index} className="border-b-2">
-                  <td className="p-4">
+                <tr key={index} className={`border-b-2 ${isDarkMode ? 'border-gray-600' : ''}`}>
+                  <td className="p-2 sm:p-4">
                     <div className="flex-col justify-center items-center">
                       <div className="flex-1">
-                        <p className="text-lg font-bold text-green-800 mb-1">
+                        <p className={`text-base sm:text-lg font-bold ${
+                          isDarkMode ? 'text-blue-400' : 'text-green-800'
+                        } mb-1`}>
                           {phrase.targetText}
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                           {phrase.translatedText}
                         </p>
                       </div>
                       <div className="flex justify-center space-x-2 pt-2">
                         <button
                           onClick={() => speakPhrase(phrase, 1)}
-                          className="p-2 bg-green-800 text-white rounded hover:bg-green-600"
+                          className={`p-2 ${
+                            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+                          } text-white rounded`}
                         >
                           <PlayCircle className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => speakPhrase(phrase, 0.4)}
-                          className="p-2 bg-green-800 text-white rounded hover:bg-green-600"
+                          className={`p-2 ${
+                            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+                          } text-white rounded`}
                         >
                           <Clock className="w-4 h-4" />
                         </button>
@@ -203,26 +215,6 @@ export default function App() {
             </tbody>
           </table>
         </div>
-        <div className="flex justify-between mb-4 mt-4">
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 0}
-            className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Previous
-          </button>
-          <span className="text-gray-600">
-            Page {currentPage + 1} of {Math.ceil(phrases.length / ITEMS_PER_PAGE)}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={(currentPage + 1) * ITEMS_PER_PAGE >= phrases.length}
-            className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Next
-          </button>
-        </div>
-
       </div>
     );
   };
@@ -232,14 +224,18 @@ export default function App() {
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={handlePrevious}
-          className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
+          className={`px-4 py-2 ${
+            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+          } text-white rounded disabled:opacity-50`}
           disabled={phrases.length <= 1}
         >
           Previous
         </button>
         <button
           onClick={handleNext}
-          className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-600"
+          className={`px-4 py-2 ${
+            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+          } text-white rounded disabled:opacity-50`}
           disabled={phrases.length <= 1}
         >
           Next
@@ -247,41 +243,53 @@ export default function App() {
       </div>
 
       <div className="mb-4">
-        <h2 className="text-2xl font-bold mb-2">{currentPhrase?.targetText}</h2>
-        <p className="text-gray-600">{currentPhrase?.translatedText}</p>
+        <h2 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-white' : ''}`}>
+          {currentPhrase?.targetText}
+        </h2>
+        <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          {currentPhrase?.translatedText}
+        </p>
       </div>
 
       <div className="flex justify-center space-x-2 md:space-x-4">
         <button
           onClick={() => currentPhrase && speakPhrase(currentPhrase, 1)}
-          className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
+          className={`flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base ${
+            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+          } text-white rounded`}
         >
           <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
           Speak
         </button>
         <button
           onClick={() => currentPhrase && speakPhrase(currentPhrase, 0.4)}
-          className="flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
+          className={`flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base ${
+            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+          } text-white rounded`}
         >
           <Clock className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
           Slow
         </button>
         <button
           onClick={() => loadInitialPhrases(selectedCategory)}
-          className="px-2 py-1 md:px-4 md:py-2 text-sm md:text-base bg-green-800 text-white rounded hover:bg-green-600"
+          className={`px-2 py-1 md:px-4 md:py-2 text-sm md:text-base ${
+            isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-800 hover:bg-green-600'
+          } text-white rounded`}
         >
           Random
         </button>
       </div>
 
       <div className="mt-6">
-        <div className="w-full bg-gray-200 rounded-full h-2.5">
+        <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
           <div
-            className="bg-green-800 h-2.5 rounded-full transition-all duration-300"
+            className={`h-2.5 rounded-full transition-all duration-300 ${
+              isDarkMode ? 'bg-blue-600' : 'bg-green-800'
+            }`}
             style={{ width: `${((currentIndex + 1) / phrases.length) * 100}%` }}
           ></div>
         </div>
-        <p className="text-sm text-gray-600 mt-1">
+        <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mt-1`}>
           {currentIndex + 1} of {phrases.length} phrases
         </p>
       </div>
@@ -291,20 +299,34 @@ export default function App() {
   return (
     <div
       className={`min-h-screen p-8 ${
-        selectedLanguage === 'Portuguese'
+        isDarkMode
+          ? 'bg-gray-900'
+          : selectedLanguage === 'Portuguese'
           ? 'bg-gradient-to-b from-green-400 to-green-800'
           : 'bg-gradient-to-b from-blue-400 to-blue-800'
       }`}
     >
-      <header className="flex justify-center py-1 mb-3">
+      <header className="flex justify-between items-center py-1 mb-3 max-w-4xl mx-auto">
         <img src={logo} alt="Logo" className="w-20 h-20"/>
+        <button
+          onClick={toggleDarkMode}
+          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+        >
+          {isDarkMode ? (
+            <Sun className="w-6 h-6 text-yellow-400" />
+          ) : (
+            <Moon className="w-6 h-6 text-gray-800" />
+          )}
+        </button>
       </header>
 
-      <div className="max-w-4xl mx-auto bg-white/70 rounded-xl shadow-md overflow-hidden">
-        <div className="p-8">
+      <div className={`max-w-4xl mx-auto ${isDarkMode ? 'bg-gray-800' : 'bg-white/70'} rounded-xl shadow-md overflow-hidden`}>
+        <div className="p-2 sm:p-8">
           <div className="mb-4">
             <select
-              className="w-full p-2 border rounded mb-4"
+              className={`w-full p-2 border rounded mb-4 ${
+                isDarkMode ? 'bg-gray-700 text-white border-gray-600' : ''
+              }`}
               value={selectedLanguage}
               onChange={(e) => handleLanguageChange(e.target.value)}
               disabled={isLoading}
@@ -317,7 +339,9 @@ export default function App() {
             </select>
 
             <select
-              className="w-full p-2 border rounded"
+              className={`w-full p-2 border rounded ${
+                isDarkMode ? 'bg-gray-700 text-white border-gray-600' : ''
+              }`}
               value={selectedCategory}
               onChange={(e) => handleCategoryChange(e.target.value)}
               disabled={isLoading}
@@ -332,7 +356,9 @@ export default function App() {
           </div>
 
           {isLoading ? (
-            <div className="text-center">Cargando...</div>
+            <div className={`text-center ${isDarkMode ? 'text-white' : ''}`}>
+              Cargando...
+            </div>
           ) : (
             currentPhrase && (
               TABLE_VIEW_CATEGORIES.includes(selectedCategory)
