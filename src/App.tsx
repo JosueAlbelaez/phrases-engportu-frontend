@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getRandomPhrase, getPhrasesByCategory, Phrase } from './services/api';
 import { PlayCircle, Clock, Sun, Moon } from 'lucide-react';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 import { useTheme } from './contexts/ThemeContext';
+import VoiceRecorder from './components/VoiceRecorder';
 import logo from './assets/logo.png';
 
 const languages = ['English', 'Portuguese'];
@@ -58,6 +59,7 @@ export default function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
+  const [resetRecorder, setResetRecorder] = useState(false);
 
   useEffect(() => {
     loadInitialPhrases();
@@ -71,6 +73,7 @@ export default function App() {
       setCurrentPhrase(randomPhrases[0]);
       setCurrentIndex(0);
       setCurrentPage(0);
+      setResetRecorder(prev => !prev);
     } catch (error) {
       console.error('Error loading initial phrases:', error);
     } finally {
@@ -88,6 +91,7 @@ export default function App() {
       setCurrentPhrase(randomPhrases[0]);
       setCurrentIndex(0);
       setCurrentPage(0);
+      setResetRecorder(prev => !prev);
     } catch (error) {
       console.error('Error loading phrases for new language:', error);
     } finally {
@@ -105,6 +109,7 @@ export default function App() {
         setCurrentPhrase(categoryPhrases[0]);
         setCurrentIndex(0);
         setCurrentPage(0);
+        setResetRecorder(prev => !prev);
       } else {
         await loadInitialPhrases();
       }
@@ -120,6 +125,7 @@ export default function App() {
       const nextIndex = (currentIndex + 1) % phrases.length;
       setCurrentIndex(nextIndex);
       setCurrentPhrase(phrases[nextIndex]);
+      setResetRecorder(prev => !prev);
     }
   };
 
@@ -128,18 +134,21 @@ export default function App() {
       const prevIndex = currentIndex === 0 ? phrases.length - 1 : currentIndex - 1;
       setCurrentIndex(prevIndex);
       setCurrentPhrase(phrases[prevIndex]);
+      setResetRecorder(prev => !prev);
     }
   };
 
   const handleNextPage = () => {
     if ((currentPage + 1) * ITEMS_PER_PAGE < phrases.length) {
       setCurrentPage(currentPage + 1);
+      setResetRecorder(prev => !prev);
     }
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
+      setResetRecorder(prev => !prev);
     }
   };
 
@@ -200,23 +209,35 @@ export default function App() {
                           {phrase.translatedText}
                         </p>
                       </div>
-                      <div className="flex justify-center space-x-2 pt-2">
+                      <div className="flex justify-center py-2 space-x-1">
                         <button
                           onClick={() => speakPhrase(phrase, 1)}
-                          className={`p-2 ${
+                          className={`flex items-center px-1 py-2 min-w-[60px] ${
                             isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
-                          } text-white rounded`}
+                          } text-white rounded justify-center`}
                         >
-                          <PlayCircle className="w-4 h-4" />
+                          <PlayCircle className="w-5 h-5" />
+                          
                         </button>
                         <button
                           onClick={() => speakPhrase(phrase, 0.4)}
-                          className={`p-2 ${
+                          className={`flex items-center px-1 py-2 min-w-[60px] ${
                             isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
-                          } text-white rounded`}
+                          } text-white rounded justify-center`}
                         >
-                          <Clock className="w-4 h-4" />
+                          <Clock className="w-5 h-5" />
+                         
                         </button>
+                        <VoiceRecorder 
+                          targetPhrase={phrase.targetText} 
+                          isDarkMode={isDarkMode} 
+                          resetKey={resetRecorder}
+                          inline={true}
+                          resultId={`similarity-result-${startIndex + index}`}
+                        />
+                      </div>
+                      <div id={`similarity-result-${startIndex + index}`} className="h-8">
+                        {/* El resultado de la comparación aparecerá aquí */}
                       </div>
                     </div>
                   </td>
@@ -284,36 +305,40 @@ export default function App() {
         </p>
       </div>
 
-      <div className="flex justify-center space-x-2 md:space-x-4">
-        <button
-          onClick={() => currentPhrase && speakPhrase(currentPhrase, 1)}
-          className={`flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base ${
-            isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
-          } text-white rounded`}
-        >
-          <PlayCircle className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
-          Speak
-        </button>
-        <button
-          onClick={() => currentPhrase && speakPhrase(currentPhrase, 0.4)}
-          className={`flex items-center px-2 py-1 md:px-4 md:py-2 text-sm md:text-base ${
-            isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
-          } text-white rounded`}
-        >
-          <Clock className="mr-1 md:mr-2 w-4 h-4 md:w-5 md:h-5" />
-          Slow
-        </button>
-        <button
-          onClick={() => loadInitialPhrases(selectedCategory)}
-          className={`px-2 py-1 md:px-4 md:py-2 text-sm md:text-base ${
-            isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
-          } text-white rounded`}
-        >
-          Random
-        </button>
-      </div>
+      <div className="flex flex-col space-y-4">
+        <div className="flex justify-center space-x-1">
+          <button
+            onClick={() => currentPhrase && speakPhrase(currentPhrase, 1)}
+            className={`flex items-center px-1 py-2 min-w-[100px] ${
+              isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
+            } text-white rounded justify-center`}
+          >
+            <PlayCircle className="mr-2 w-5 h-5" />
+            Speak
+          </button>
+          <button
+            onClick={() => currentPhrase && speakPhrase(currentPhrase, 0.4)}
+            className={`flex items-center px-1 py-2 min-w-[100px] ${
+              isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
+            } text-white rounded justify-center`}
+          >
+            <Clock className="mr-2 w-5 h-5" />
+            Slow
+          </button>
+          {currentPhrase && (
+            <VoiceRecorder 
+              targetPhrase={currentPhrase.targetText} 
+              isDarkMode={isDarkMode} 
+              resetKey={resetRecorder}
+              inline={true}
+            />
+          )}
+        </div>
 
-      <div className="mt-6">
+        <div id="similarity-result" className="h-8">
+          {/* El resultado de la comparación aparecerá aquí */}
+        </div>
+
         <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
           <div
             className={`h-2.5 rounded-full transition-all duration-300 ${
@@ -322,7 +347,7 @@ export default function App() {
             style={{ width: `${((currentIndex + 1) / phrases.length) * 100}%` }}
           ></div>
         </div>
-        <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mt-1`}>
+        <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
           {currentIndex + 1} of {phrases.length} phrases
         </p>
       </div>
