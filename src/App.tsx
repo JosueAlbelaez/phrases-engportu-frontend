@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getRandomPhrase, getPhrasesByCategory, Phrase } from './services/api';
 import { PlayCircle, Clock, Sun, Moon } from 'lucide-react';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
