@@ -102,7 +102,7 @@ export default function VoiceRecorder({ targetPhrase, isDarkMode, resetKey, inli
   const getFeedbackColor = (score: number): string => {
     if (score <= 60) return isDarkMode ? 'text-red-400' : 'text-red-600';
     if (score <= 80) return isDarkMode ? 'text-yellow-400' : 'text-yellow-600';
-    return isDarkMode ? 'text-green-400' : 'text-green-600';
+    return isDarkMode ? 'text-green-400' : 'text-blue-600';
   };
 
   const getFeedbackMessage = (score: number): string => {

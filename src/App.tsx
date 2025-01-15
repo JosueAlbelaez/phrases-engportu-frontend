@@ -210,24 +210,31 @@ export default function App() {
                         </p>
                       </div>
                       <div className="flex justify-center py-2 space-x-1">
-                        <button
-                          onClick={() => speakPhrase(phrase, 1)}
-                          className={`flex items-center px-1 py-2 min-w-[60px] ${
-                            isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
-                          } text-white rounded justify-center`}
-                        >
-                          <PlayCircle className="w-5 h-5" />
-                          
-                        </button>
-                        <button
-                          onClick={() => speakPhrase(phrase, 0.4)}
-                          className={`flex items-center px-1 py-2 min-w-[60px] ${
-                            isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
-                          } text-white rounded justify-center`}
-                        >
-                          <Clock className="w-5 h-5" />
-                         
-                        </button>
+                      <button
+  onClick={() => speakPhrase(phrase, 1)}
+  className={`flex items-center justify-center 
+              px-2 py-1 text-xs min-w-[50px] 
+              md:px-4 md:py-2 md:text-base md:min-w-[60px] 
+              rounded transition-colors 
+              ${
+                isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
+              } text-white`}
+>
+  <PlayCircle className="w-4 h-4 md:w-5 md:h-5" />
+</button>
+
+<button
+  onClick={() => speakPhrase(phrase, 0.4)}
+  className={`flex items-center justify-center 
+              px-2 py-1 text-xs min-w-[50px] 
+              md:px-4 md:py-2 md:text-base md:min-w-[60px] 
+              rounded transition-colors 
+              ${
+                isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
+              } text-white`}
+>
+  <Clock className="w-4 h-4 md:w-5 md:h-5" />
+</button>
                         <VoiceRecorder 
                           targetPhrase={phrase.targetText} 
                           isDarkMode={isDarkMode} 
