@@ -307,24 +307,28 @@ export default function App() {
 
       <div className="flex flex-col space-y-4">
         <div className="flex justify-center space-x-1">
-          <button
-            onClick={() => currentPhrase && speakPhrase(currentPhrase, 1)}
-            className={`flex items-center px-1 py-2 min-w-[100px] ${
-              isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
-            } text-white rounded justify-center`}
-          >
-            <PlayCircle className="mr-2 w-5 h-5" />
-            Speak
-          </button>
-          <button
-            onClick={() => currentPhrase && speakPhrase(currentPhrase, 0.4)}
-            className={`flex items-center px-1 py-2 min-w-[100px] ${
-              isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'
-            } text-white rounded justify-center`}
-          >
-            <Clock className="mr-2 w-5 h-5" />
-            Slow
-          </button>
+        <button
+  onClick={() => currentPhrase && speakPhrase(currentPhrase, 1)}
+  className={`flex items-center justify-center 
+              px-2 py-1 text-sm min-w-[50px] 
+              md:px-4 md:py-2 md:text-base md:min-w-[70px] 
+              ${isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'} 
+              text-white rounded`}
+>
+  <PlayCircle className="mr-1 w-4 h-4 md:mr-2 md:w-5 md:h-5" />
+  Speak
+</button>
+<button
+  onClick={() => currentPhrase && speakPhrase(currentPhrase, 0.4)}
+  className={`flex items-center justify-center 
+              px-2 py-1 text-sm min-w-[50px] 
+              md:px-4 md:py-2 md:text-base md:min-w-[70px] 
+              ${isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-800 hover:bg-green-600'} 
+              text-white rounded`}
+>
+  <Clock className="mr-1 w-4 h-4 md:mr-2 md:w-5 md:h-5" />
+  Slow
+</button>
           {currentPhrase && (
             <VoiceRecorder 
               targetPhrase={currentPhrase.targetText} 

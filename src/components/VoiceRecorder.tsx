@@ -111,13 +111,17 @@ export default function VoiceRecorder({ targetPhrase, isDarkMode, resetKey, inli
     return `Coincidencia del ${score}%, ¡Excelente pronunciación!`;
   };
 
-  const buttonClasses = `flex items-center px-1 py-2 rounded ${
-    isRecording
-      ? 'bg-red-600 hover:bg-red-700'
-      : isDarkMode
-      ? 'bg-green-600 hover:bg-green-700'
-      : 'bg-green-800 hover:bg-green-600'
-  } text-white transition-colors min-w-[100px] justify-center`;
+  const buttonClasses = `flex items-center justify-center 
+                       px-2 py-1 text-sm min-w-[50px] 
+                       md:px-4 md:py-2 md:text-base md:min-w-[70px] 
+                       rounded transition-colors 
+                       ${
+                         isRecording
+                           ? 'bg-red-600 hover:bg-red-700'
+                           : isDarkMode
+                           ? 'bg-green-600 hover:bg-green-700'
+                           : 'bg-green-800 hover:bg-green-600'
+                       } text-white`;
 
   return (
     <div className={inline ? 'inline-block' : ''}>
@@ -127,12 +131,12 @@ export default function VoiceRecorder({ targetPhrase, isDarkMode, resetKey, inli
       >
         {isRecording ? (
           <>
-            <Square className="w-5 h-5 mr-2" />
+            <Square className="mr-1 w-4 h-4 md:mr-2 md:w-5 md:h-5" />
             Detener
           </>
         ) : (
           <>
-            <Mic className="w-5 h-5 mr-2" />
+            <Mic className="mr-1 w-4 h-4 md:mr-2 md:w-5 md:h-5" />
             Grabar
           </>
         )}
