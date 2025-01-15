@@ -243,7 +243,7 @@ export default function App() {
                           resultId={`similarity-result-${startIndex + index}`}
                         />
                       </div>
-                      <div id={`similarity-result-${startIndex + index}`} className="h-8">
+                      <div id={`similarity-result-${startIndex + index}`} className="h-9 pb-2">
                         {/* El resultado de la comparación aparecerá aquí */}
                       </div>
                     </div>
