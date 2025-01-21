@@ -132,12 +132,12 @@ export default function VoiceRecorder({ targetPhrase, isDarkMode, resetKey, inli
         {isRecording ? (
           <>
             <Square className="mr-1 w-4 h-4 md:mr-2 md:w-5 md:h-5" />
-            Detener
+            Stop
           </>
         ) : (
           <>
             <Mic className="mr-1 w-4 h-4 md:mr-2 md:w-5 md:h-5" />
-            Grabar
+            Record
           </>
         )}
       </button>

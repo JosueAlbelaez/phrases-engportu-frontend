@@ -60,6 +60,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const [resetRecorder, setResetRecorder] = useState(false);
+  const [typedText, setTypedText] = useState('');
 
   useEffect(() => {
     loadInitialPhrases();
@@ -160,6 +161,29 @@ export default function App() {
       window.speechSynthesis.speak(utterance);
     }
   };
+
+  useEffect(() => {
+    const text = 'Elige la categoría, practica, pronuncia, DIVIÉRTETE';
+    let currentIndex = 0;
+    let timeoutId: NodeJS.Timeout;
+    
+    const typeNextCharacter = () => {
+      if (currentIndex <= text.length) {
+        setTypedText(text.slice(0, currentIndex));
+        currentIndex++;
+        timeoutId = setTimeout(typeNextCharacter, 50);
+      }
+    };
+
+    typeNextCharacter();
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      setTypedText('');
+    };
+  }, []);
 
   const renderTableView = () => {
     const startIndex = currentPage * ITEMS_PER_PAGE;
@@ -375,18 +399,32 @@ export default function App() {
           : 'bg-gradient-to-b from-blue-400 to-blue-800'
       }`}
     >
-      <header className="flex justify-between items-center py-1 mb-3 max-w-4xl mx-auto">
-        <img src={logo} alt="Logo" className="w-20 h-20"/>
-        <button
-          onClick={toggleDarkMode}
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-        >
-          {isDarkMode ? (
-            <Sun className="w-6 h-6 text-yellow-400" />
-          ) : (
-            <Moon className="w-6 h-6 text-gray-800" />
-          )}
-        </button>
+     <header className="flex flex-col py-4 mb-2 max-w-4xl mx-auto w-full px-4">
+        <div className="flex justify-between items-center w-full mb-2">
+          <div className="flex items-center gap-4">
+            <img src={logo} alt="Logo" className="w-20 h-20" />
+          
+          </div>
+          <button
+            onClick={toggleDarkMode}
+            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          >
+            {isDarkMode ? (
+              <Sun className="w-6 h-6 text-yellow-400" />
+            ) : (
+              <Moon className="w-6 h-6 text-gray-800" />
+            )}
+          </button>
+        </div>
+
+        <div className={`text-center ${isDarkMode ? 'text-yellow-400' : 'text-green-200'}`}>
+  <p className={`text-lg font-bold h-[90px] overflow-hidden 
+    text-shadow-xl ${isDarkMode ? 'text-shadow-[#ffffff] dark:text-shadow-[#ffffff]' : 'text-shadow-[#000000]'}`}>
+    {typedText}
+  </p>
+</div>
+
+
       </header>
 
       <div className={`max-w-4xl mx-auto ${isDarkMode ? 'bg-gray-800' : 'bg-white/70'} rounded-xl shadow-md overflow-hidden`}>
