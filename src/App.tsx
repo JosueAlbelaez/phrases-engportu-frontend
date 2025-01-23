@@ -7,7 +7,7 @@ import VoiceRecorder from './components/VoiceRecorder';
 import logo from './assets/logo.png';
 const currentYear = new Date().getFullYear();
 
-const languages = ['English', 'Portuguese'];
+const languages = ['English']; //, 'Portuguese'
 const DEFAULT_LANGUAGE = 'English';
 const ITEMS_PER_PAGE = 50;
 
