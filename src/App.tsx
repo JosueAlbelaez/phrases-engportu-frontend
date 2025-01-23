@@ -481,7 +481,7 @@ export default function App() {
         </div>
       </div>
 
-      <footer className="w-full bg-gray-900 text-gray-300 mt-8">
+      <footer className={`w-full text-gray-300 mt-8 ${isDarkMode ? 'bg-gray-900' : 'bg-blue-700'}`}>
         <div className="max-w-6xl mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Company Info */}
