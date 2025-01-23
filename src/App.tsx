@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { getRandomPhrase, getPhrasesByCategory, Phrase } from './services/api';
-import { PlayCircle, Clock, Sun, Moon } from 'lucide-react';
-import { FaLinkedin, FaGithub } from 'react-icons/fa';
+import { PlayCircle, Clock, Home, Sun, Moon, Mail, Phone, MapPin} from 'lucide-react';
+import { FaLinkedin, FaInstagram, FaTiktok } from 'react-icons/fa';
 import { useTheme } from './contexts/ThemeContext';
 import VoiceRecorder from './components/VoiceRecorder';
 import logo from './assets/logo.png';
+const currentYear = new Date().getFullYear();
 
 const languages = ['English', 'Portuguese'];
 const DEFAULT_LANGUAGE = 'English';
@@ -401,9 +402,15 @@ export default function App() {
     >
      <header className="flex flex-col py-4 mb-2 max-w-4xl mx-auto w-full px-4">
         <div className="flex justify-between items-center w-full mb-2">
-          <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4">
             <img src={logo} alt="Logo" className="w-20 h-20" />
-          
+            <button
+              onClick={() => window.location.href = 'https://fluentphrases.org/'}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-blue-700 transition-colors"
+            >
+              <Home className="w-4 h-4" />
+              <span>Inicio</span>
+            </button>
           </div>
           <button
             onClick={toggleDarkMode}
@@ -474,36 +481,115 @@ export default function App() {
         </div>
       </div>
 
-      <footer className="mt-6 text-center text-green-300">
-        <div className="inline-flex px-4 flex-col md:flex-row bg-black/50 rounded py-2 justify-center items-center space-x-0 md:space-x-4">
-          <p>
-            Creado por{' '}
-            <a
-              href="https://josuealbelaez.netlify.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-green-300 hover:text-white shadow hover:shadow-green-300/60 transition duration-300"
-            >
-              JOSUÉ ALBELÁEZ
-            </a>
-          </p>
-          <div className="flex justify-center space-x-4 mt-4 md:mt-0">
-            <a
-              href="https://www.linkedin.com/in/juanjosuealbelaez/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-green-300 hover:text-white shadow hover:shadow-green-300/60 transition duration-300"
-            >
-              <FaLinkedin size={24} />
-            </a>
-            <a
-              href="https://github.com/JosueAlbelaez"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-green-300 hover:text-white shadow hover:shadow-green-300/60 transition duration-300"
-            >
-              <FaGithub size={24} />
-            </a>
+      <footer className="w-full bg-gray-900 text-gray-300 mt-8">
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Company Info */}
+            <div className="space-y-4">
+              <img src={logo} alt="Logo" className="w-24 h-24"/>
+              <p className="text-sm">
+                Transformando el aprendizaje de idiomas a través de la tecnología y la innovación.
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4 text-white">Enlaces Rápidos</h3>
+              <ul className="space-y-2">
+                <li>
+                  <a href="/" className="hover:text-white transition-colors">Inicio</a>
+                </li>
+                <li>
+                  <a href="/about" className="hover:text-white transition-colors">Sobre Nosotros</a>
+                </li>
+                <li>
+                  <a href="/pricing" className="hover:text-white transition-colors">Planes</a>
+                </li>
+                <li>
+                  <a href="/blog" className="hover:text-white transition-colors">Blog</a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Contact Info */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4 text-white">Contacto</h3>
+              <ul className="space-y-2">
+                <li className="flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  <a href="mailto:contact@example.com" className="hover:text-white transition-colors">
+                    Info@fluentphrases.com
+                  </a>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Phone className="w-4 h-4" />
+                  <a href="tel:+1234567890" className="hover:text-white transition-colors">
+                    +54-1162908729
+                  </a>
+                </li>
+                <li className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4" />
+                  <span>CIUDAD DE BUENOS AIRES, ARGENTINA</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Social Media & Newsletter */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4 text-white">Síguenos</h3>
+              <div className="flex space-x-4 mb-6">
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-pink-500 transition-colors"
+                >
+                  <FaInstagram size={24} />
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-blue-500 transition-colors"
+                >
+                  <FaLinkedin size={24} />
+                </a>
+                <a
+                  href="https://tiktok.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  <FaTiktok size={24} />
+                </a>
+              </div>
+              <a
+                href="/contact"
+                className="inline-block px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+              >
+                Contactar
+              </a>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="border-t border-gray-800 mt-8 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+              <div className="text-sm">
+                © {currentYear} Fluent Phrases. Todos los derechos reservados.
+              </div>
+              <div className="flex space-x-6 text-sm">
+                <a href="/privacy" className="hover:text-white transition-colors">
+                  Política de Privacidad
+                </a>
+                <a href="/terms" className="hover:text-white transition-colors">
+                  Términos de Uso
+                </a>
+                <a href="/cookies" className="hover:text-white transition-colors">
+                  Política de Cookies
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
